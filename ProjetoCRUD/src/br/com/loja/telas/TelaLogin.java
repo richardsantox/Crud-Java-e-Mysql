@@ -16,6 +16,8 @@ public class TelaLogin extends javax.swing.JFrame {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtUsuario.getText());
             pst.setString(2, txtSenha.getText());
+            /*String captura_senha = new String(txtSenha.getPassword());
+            pst.setString(2, captura_senha);*/
             
             rs = pst.executeQuery();
             
@@ -23,6 +25,9 @@ public class TelaLogin extends javax.swing.JFrame {
                 //System.out.println("Agora é o momento de abrir a tela principal");
                 TelaPrincipal principal = new TelaPrincipal();
                 principal.setVisible(true);
+                
+                this.dispose();
+                conexao.close();
                 
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario/Senha Invalidos!");
