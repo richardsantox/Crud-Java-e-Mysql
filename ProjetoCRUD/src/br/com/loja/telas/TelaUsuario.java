@@ -80,7 +80,63 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     
-}
+    }
+   
+   private void alterar(){
+        String sql = "UPDATE usuarios set usuario=?, fone=?, login=?, senha=?, "
+                + "perfil=? WHERE iduser=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtNome.getText());
+            pst.setString(2, txtTelefone.getText());
+            pst.setString(3, txtLogin.getText());
+            String captura_senha = new String(txtSenha.getText());
+            pst.setString(4, captura_senha);
+            pst.setString(5, comboPerfil.getSelectedItem().toString());
+            pst.setString(6, txtId.getText());
+            if (txtId.getText().isEmpty() || txtNome.getText().isEmpty() || txtTelefone.getText().isEmpty() || 
+                    txtLogin.getText().isEmpty() || txtSenha.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null,"Preencha todos os campos obrigatórios!");
+            } else {
+                int adicionado = pst.executeUpdate();
+                if (adicionado>0){
+                    JOptionPane.showMessageDialog(null,"Dados do usuário alterado com sucesso!");
+                    txtId.setText(null);
+                    txtNome.setText(null);
+                    txtTelefone.setText(null);
+                    txtLogin.setText(null);
+                    txtSenha.setText(null);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+   
+    private void remover(){
+        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza de que deseja remover este usuário?",
+                "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION){
+            String sql = "DELETE FROM usuarios WHERE iduser=?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtId.getText());
+                int apagado = pst.executeUpdate();
+                if (apagado > 0){
+                    JOptionPane.showMessageDialog(null, "Usuário removido com sucesso!");
+                    txtId.setText(null);
+                    txtNome.setText(null);
+                    txtTelefone.setText(null);
+                    txtLogin.setText(null);
+                    txtSenha.setText(null);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }
+    
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
