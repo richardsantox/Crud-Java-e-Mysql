@@ -73,6 +73,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         MenuCadastro.setText("Cadastro");
 
         MenuCadastroCliente.setText("Cliente");
+        MenuCadastroCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuCadastroClienteActionPerformed(evt);
+            }
+        });
         MenuCadastro.add(MenuCadastroCliente);
 
         MenuCadastroOS.setText("OS");
@@ -183,6 +188,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         sobre.setVisible(true);
         
     }//GEN-LAST:event_MenuAjudaSobreActionPerformed
+
+    private void MenuCadastroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCadastroClienteActionPerformed
+        TelaClientes cliente = new TelaClientes();
+        cliente.setVisible(true);
+        Desktop.add(cliente);
+    }//GEN-LAST:event_MenuCadastroClienteActionPerformed
 
     /**
      * @param args the command line arguments
