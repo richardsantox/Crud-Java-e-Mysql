@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28-Jul-2021 às 03:40
--- Versão do servidor: 10.4.19-MariaDB
--- versão do PHP: 8.0.7
+-- Tempo de geração: 30-Nov-2021 às 18:01
+-- Versão do servidor: 10.4.20-MariaDB
+-- versão do PHP: 8.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,10 +18,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `dblojaetec`
+-- Banco de dados: `bdlojaetec`
 --
-CREATE DATABASE IF NOT EXISTS `dblojaetec` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `dblojaetec`;
+CREATE DATABASE IF NOT EXISTS `bdlojaetec` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `bdlojaetec`;
 
 -- --------------------------------------------------------
 
@@ -42,7 +42,16 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`idcli`, `nomecli`, `endcli`, `fonecli`, `emailcli`) VALUES
-(1, 'fulano', 'rua: Marechal, 55, Ribeirão Pires, SP', '48231497', 'fulano@email.com');
+(1, 'CANTINA ETEC MCM', 'RUA BÉLGICA, 88', '1148484848', 'cantinaetec@email.com'),
+(2, 'PAPELARIA SEILA', 'RUA DO CENTRO, 1234', '11998956464', 'papelaria@email.com'),
+(3, 'José da silva VANIN', 'Rua sei lá, 123', '98888-0000', 'jose@email.com'),
+(4, 'João Ribeiro', 'Rua Amazonas, 1111', '8888-8888', 'joao@email.com'),
+(5, 'Carlos Sampaio', 'Av principal, 4321', '5656-5656', 'carlos@email.com'),
+(6, 'Cida da Silva', 'Rua tr~es, 123456', '7896-6532', 'cida@email.com'),
+(7, 'Joana d\'Arc', 'Av 7 de setembro, 123', '3698-9512', 'joana@email.com'),
+(9, 'Neymar', 'Rua paris', '965326768', 'meninoney@gmail.com'),
+(10, 'matheus', 'rua valkiria', '965241013', 'matheus@gmail.com'),
+(11, 'Richard', 'rua Sitio mary jone', '998364943', 'richard@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -53,11 +62,13 @@ INSERT INTO `clientes` (`idcli`, `nomecli`, `endcli`, `fonecli`, `emailcli`) VAL
 CREATE TABLE `ordem_servico` (
   `os` int(11) NOT NULL,
   `data_os` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tipo` int(15) NOT NULL,
+  `sítuacao` int(50) NOT NULL,
   `equipamento` varchar(150) NOT NULL,
   `defeito` varchar(150) NOT NULL,
-  `servico` varchar(150) NOT NULL,
-  `tecnico` varchar(30) NOT NULL,
+  `tecnico` varchar(50) NOT NULL,
   `valor` decimal(10,2) NOT NULL,
+  `servico` varchar(150) NOT NULL,
   `idcli` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -65,8 +76,8 @@ CREATE TABLE `ordem_servico` (
 -- Extraindo dados da tabela `ordem_servico`
 --
 
-INSERT INTO `ordem_servico` (`os`, `data_os`, `equipamento`, `defeito`, `servico`, `tecnico`, `valor`, `idcli`) VALUES
-(1, '2021-07-28 01:27:30', 'Pc', 'Memória cheia', 'Formatação', 'Carlão', '50.00', 1);
+INSERT INTO `ordem_servico` (`os`, `data_os`, `tipo`, `sítuacao`, `equipamento`, `defeito`, `tecnico`, `valor`, `servico`, `idcli`) VALUES
+(1, '2021-07-25 16:48:09', 0, 0, 'COMPUTADOR INTEL I5 - 4G DE RAM - 2T DE HD. COD 1234.5678', 'COMPUTADOR NÃO INICIA VÍDEO.', 'CEBOLINHA', '150.00', 'TROCAR PENTE DE MEMÓRIA. MEMÓRIA EM CURTO.', 1);
 
 -- --------------------------------------------------------
 
@@ -78,17 +89,19 @@ CREATE TABLE `usuarios` (
   `iduser` int(11) NOT NULL,
   `usuario` varchar(50) NOT NULL,
   `fone` varchar(15) NOT NULL,
-  `login` varchar(30) NOT NULL,
-  `senha` varchar(15) NOT NULL
+  `login` varchar(15) NOT NULL,
+  `senha` varchar(15) NOT NULL,
+  `perfil` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `usuarios`
 --
 
-INSERT INTO `usuarios` (`iduser`, `usuario`, `fone`, `login`, `senha`) VALUES
-(1, 'richard', '998364943', 'richard@email.com', '1234'),
-(3, 'admin', '48254825', 'admin@admin.com', '4321');
+INSERT INTO `usuarios` (`iduser`, `usuario`, `fone`, `login`, `senha`, `perfil`) VALUES
+(1, 'ANDERSON VANIN', '1199999-9999', 'anderson', '1234', 'admin'),
+(2, 'FULANO DA SILVA', '1199999-9999', 'fulano', '1234', 'admin'),
+(3, 'ZEZINHO DA SILVA', '1199999-9999', 'zezinho', '1234', 'user');
 
 --
 -- Índices para tabelas despejadas
@@ -111,7 +124,8 @@ ALTER TABLE `ordem_servico`
 -- Índices para tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`iduser`);
+  ADD PRIMARY KEY (`iduser`),
+  ADD UNIQUE KEY `login` (`login`);
 
 --
 -- AUTO_INCREMENT de tabelas despejadas
@@ -121,7 +135,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `idcli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idcli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `ordem_servico`
@@ -133,7 +147,7 @@ ALTER TABLE `ordem_servico`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restrições para despejos de tabelas
